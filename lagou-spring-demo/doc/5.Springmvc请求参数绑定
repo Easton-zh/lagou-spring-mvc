@@ -1,0 +1,48 @@
+请求参数绑定：说⽩了SpringMVC如何接收请求参数！
+    http协议（超⽂本传输协议）：所以接收的是一个文本格式，需要转成java数据类型格式
+原⽣servlet接收⼀个整型参数：
+    1）String ageStr = request.getParameter("age");
+    2) Integer age = Integer.parseInt(ageStr);
+
+SpringMVC框架对Servlet的封装，简化了servlet的很多操作
+SpringMVC在接收整型参数的时候，直接在Handler⽅法中声明形参即可
+@RequestMapping("xxx")
+public String handle(Integer age) {
+System.out.println(age);
+}
+    参数绑定：取出参数值绑定到handler⽅法的形参上
+默认⽀持 Servlet API 作为⽅法参数
+当需要使⽤HttpServletRequest、HttpServletResponse、HttpSession等原⽣servlet对象时，直接在handler⽅法中形参声明使⽤即可。
+
+
+绑定简单类型参数
+简单数据类型：⼋种基本数据类型及其包装类型
+参数类型推荐使⽤包装数据类型，因为基础数据类型不可以为null
+整型：Integer、int
+字符串：String
+单精度：Float、float
+双精度：Double、double
+布尔型：Boolean、boolean
+说明：对于布尔类型的参数，请求的参数值为true或false。或者1或0
+注意：绑定简单数据类型参数，只需要直接声明形参即可（形参参数名和传递的参数名要保持⼀
+致，建议 使⽤包装类型，当形参参数名和传递参数名不⼀致时可以使⽤@RequestParam注解进⾏
+⼿动映射）
+
+绑定Pojo类型参数
+/*
+* SpringMVC接收pojo类型参数 url：/demo/handle04?id=1&username=zhangsan
+* 接收pojo类型参数，直接形参声明即可，类型就是Pojo的类型，形参名⽆所谓
+* 但是要求传递的参数名必须和Pojo的属性名保持⼀致
+*/
+
+绑定Pojo包装对象参数
+/*
+* SpringMVC接收pojo包装类型参数 url：/demo/handle05?user.id=1&user.username=zhangsan
+* 不管包装Pojo与否，它⾸先是⼀个pojo，那么就可以按照上述pojo的要求来
+* 1、绑定时候直接形参声明即可
+* 2、传参参数名和pojo属性保持⼀致，如果不能够定位数据项，那么通过属性名 + "." 的⽅式进⼀步锁定数据
+*
+*/
+
+绑定⽇期类型参数（需要配置⾃定义类型转换器）
+定义⼀个SpringMVC的类型转换器 接⼝，扩展实现接⼝接⼝，注册你的实现

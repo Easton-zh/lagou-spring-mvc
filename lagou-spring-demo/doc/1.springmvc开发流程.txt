@@ -1,0 +1,9 @@
+SpringMVC开发流程：
+1.创建maven-webapp工程
+2.引入jar包 spring-webmvc 5.1.12
+3.  写具体的映射handle：
+    springmvc.xml配置文件：a.开启controller扫描    <context:component-scan base-package="com.abc.zh.controller"/>
+                         b.<!--配置springmvc的视图解析器：配置视图的前缀和后缀-->
+                         c.<!--自动注册最合适的处理器映射器，处理器适配器(调用handler方法)-->     <mvc:annotation-driven/>
+    web.xml 配置前端控制器DispatcherServlet 及配置springmvc.xml地址。   拦截器
+    前端页面jsp展示后台响应数据：success.jsp

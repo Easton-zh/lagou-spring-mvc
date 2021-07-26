@@ -1,0 +1,62 @@
+第 4 节 对 Restful ⻛格请求⽀持
+rest⻛格请求是什么样的？
+springmvc对rest⻛格请求到底提供了怎样的⽀持
+是⼀个注解的使⽤@PathVariable，可以帮助我们从uri中取出参数
+
+4.1 什么是 RESTful
+Restful 是⼀种 web 软件架构⻛格，它不是标准也不是协议，它倡导的是⼀个资源定位及资源操作的⻛格。
+
+什么是 REST：
+    REST（英⽂：Representational State Transfer，简称 REST）描述了⼀个架构样式的⽹络系统， ⽐如
+web 应⽤程序。它⾸次出现在 2000 年 Roy Fielding 的博⼠论⽂中，他是 HTTP 规范的主要编写者之
+⼀。在⽬前主流的三种 Web 服务交互⽅案中，REST 相⽐于 SOAP（Simple Object Access protocol，
+简单对象访问协议）以及 XML-RPC 更加简单明了，⽆论是对 URL 的处理还是对 Payload 的编码，
+REST 都倾向于⽤更加简单轻量的⽅法设计和实现。值得注意的是 REST 并没有⼀个明确的标准，⽽更像
+是⼀种设计的⻛格。
+它本身并没有什么实⽤性，其核⼼价值在于如何设计出符合 REST ⻛格的⽹络接⼝。
+
+资源 表现层 状态转移
+Restful 的优点: 它结构清晰、符合标准、易于理解、扩展⽅便，所以正得到越来越多⽹站的采⽤。
+Restful 的特性
+    1.资源（Resources）：⽹络上的⼀个实体，或者说是⽹络上的⼀个具体信息。
+它可以是⼀段⽂本、⼀张图⽚、⼀⾸歌曲、⼀种服务，总之就是⼀个具体的存在。可以⽤⼀个 URI（统
+⼀资源定位符）指向它，每种资源对应⼀个特定的 URI 。要获取这个资源，访问它的 URI 就可以，因此
+URI 即为每⼀个资源的独⼀⽆⼆的识别符。
+    2.表现层（Representation）：把资源具体呈现出来的形式，叫做它的表现层 （Representation）。⽐
+如，⽂本可以⽤ txt 格式表现，也可以⽤ HTML 格式、XML 格式、JSON 格式表现，甚⾄可以采⽤⼆进
+制格式。
+    3.状态转化（State Transfer）：每发出⼀个请求，就代表了客户端和服务器的⼀次交互过程。
+HTTP 协议，是⼀个⽆状态协议，即所有的状态都保存在服务器端。因此，如果客户端想要操作服务
+器， 必须通过某种⼿段，让服务器端发⽣“状态转化”（State Transfer）。⽽这种转化是建⽴在表现层
+之上的，所以就是 “ 表现层状态转化” 。具体说， 就是 HTTP 协议⾥⾯，四个表示操作⽅式的动词：
+GET 、POST 、PUT 、DELETE 。它们分别对应四种基本操作：GET ⽤来获取资源，POST ⽤来新建资
+源，PUT ⽤来更新资源，DELETE ⽤来删除资源。
+RESTful 的示例：
+rest是⼀个url请求的⻛格，基于这种⻛格设计请求的url
+没有rest的话，原有的url设计： http://localhost:8080/user/queryUserById.action?id=3
+url中定义了动作（操作），参数具体锁定到操作的是谁
+有了rest⻛格之后
+rest中，认为互联⽹中的所有东⻄都是资源，既然是资源就会有⼀个唯⼀的uri标识它，代表它
+http://localhost:8080/user/3  代表的是id为3的那个⽤户记录（资源）
+
+
+锁定资源之后如何操作它呢？常规操作就是增删改查
+根据请求⽅式不同，代表要做不同的操作
+get 查询，获取资源
+post 增加，新建资源
+put 更新
+delete 删除资源
+rest⻛格带来的直观体现：就是传递参数⽅式的变化，参数可以在uri中了
+    /account/1 HTTP GET ：得到 id = 1 的 account
+    /account/1 HTTP DELETE：删除 id = 1 的 account
+    /account/1 HTTP PUT：更新 id = 1 的 account
+URL：资源定位符，通过URL地址去定位互联⽹中的资源（抽象的概念，⽐如图⽚、视频、app服务等）。
+RESTful ⻛格 URL：互联⽹所有的事物都是资源，要求URL中只有表示资源的名称，没有动词。
+RESTful⻛格资源操作：使⽤HTTP请求中的method⽅法put、delete、post、get来操作资源。分别对
+应添加、删除、修改、查询。不过⼀般使⽤时还是 post 和 get。put 和 delete⼏乎不使⽤。
+RESTful ⻛格资源表述：可以根据需求对URL定位的资源返回不同的表述（也就是返回数据类型，⽐如
+XML、JSON等数据格式）。
+Spring MVC ⽀持 RESTful ⻛格请求，具体讲的就是使⽤ @PathVariable 注解获取 RESTful ⻛格的请求
+URL中的路径变量。
+
+post请求，解决乱码问题？get请求乱码问题？

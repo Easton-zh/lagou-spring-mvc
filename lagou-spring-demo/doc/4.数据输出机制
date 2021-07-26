@@ -1,0 +1,12 @@
+/**
+     * *********************************【数据输出机制】*******************************************************
+     * SpringMVC在handler方法上传入Map、Model和ModelMap参数，并向这些参数中保存数据（放入到请求域），都可以在页面获取到
+     *
+     * 它们之间是什么关系？
+     * 运行时的具体类型都是 BindingAwareModelMap，相当于给BindingAwareModelMap中保存的数据都会放在请求域中
+     *
+     *  Map(jdk中的接口)        Model（spring框架的接口）      ModelMap(class,实现Map接口)
+     *
+     * BindingAwareModelMap 继承了ExtendedModelMap，ExtendedModelMap继承了ModelMap,实现了Model接口
+     *
+     */
