@@ -59,33 +59,34 @@
     <mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
 
 
-<!--    <mvc:interceptors>-->
-<!--        &lt;!&ndash;拦截所有handler&ndash;&gt;-->
-<!--        &lt;!&ndash;<bean class="com.lagou.edu.interceptor.MyIntercepter01"/>&ndash;&gt;-->
-<!--        -->
-<!--        <mvc:interceptor>-->
-<!--            &lt;!&ndash;配置当前拦截器的url拦截规则，**代表当前目录下及其子目录下的所有url&ndash;&gt;-->
-<!--            <mvc:mapping path="/**"/>-->
-<!--            &lt;!&ndash;exclude-mapping可以在mapping的基础上排除一些url拦截&ndash;&gt;-->
-<!--            &lt;!&ndash;<mvc:exclude-mapping path="/demo/**"/>&ndash;&gt;-->
-<!--            <bean class="com.lagou.edu.interceptor.MyIntercepter01"/>-->
-<!--        </mvc:interceptor>-->
+    <mvc:interceptors>
+        <!--此种拦截所有handler,不推荐如此-->
+        <!--<bean class="com.abc.zh.interceptor.MyInterceptor"/>-->
+
+        <!--配置特定的handler-->
+        <mvc:interceptor>
+            <!--配置当前拦截器的url拦截规则，**代表当前目录下及其子目录下的所有url-->
+            <mvc:mapping path="/**"/>
+            <!--exclude-mapping可以在mapping的基础上排除一些url拦截-->
+            <!--<mvc:exclude-mapping path="/demo/**"/>-->
+            <bean class="com.abc.zh.interceptor.MyInterceptor"/>
+        </mvc:interceptor>
+
+        <!--测试两个拦截器执行顺序逻辑-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.abc.zh.interceptor.MyInterceptor02"/>
+        </mvc:interceptor>
+
+    </mvc:interceptors>
 
 
-<!--        <mvc:interceptor>-->
-<!--            <mvc:mapping path="/**"/>-->
-<!--            <bean class="com.lagou.edu.interceptor.MyIntercepter02"/>-->
-<!--        </mvc:interceptor>-->
-<!--        -->
-<!--    </mvc:interceptors>-->
-
-
-    <!--多元素解析器
+    <!--多元素解析器：springMVC
         id固定为multipartResolver
     -->
-<!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
-<!--        &lt;!&ndash;设置上传文件大小上限，单位是字节，-1代表没有限制也是默认的&ndash;&gt;-->
-<!--        <property name="maxUploadSize" value="5000000"/>-->
-<!--    </bean>-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--设置上传文件大小上限，单位是字节，-1代表没有限制也是默认的-->
+        <property name="maxUploadSize" value="5000000"/>
+    </bean>
 
 </beans>

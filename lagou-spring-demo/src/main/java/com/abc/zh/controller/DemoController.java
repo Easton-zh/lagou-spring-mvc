@@ -6,13 +6,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.resource.HttpResource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/demo")
@@ -253,4 +259,52 @@ public class DemoController {
         return user;
     }
 
+    /**
+     * ********************************【文件上传】************************************************************
+     * @param uploadFile
+     * @return
+     */
+    @RequestMapping(value = "/upload")
+        public ModelAndView upload(MultipartFile uploadFile, HttpSession httpSession) throws IOException {
+        //处理上传文件
+        //重命名，先获取后缀
+        String originalFilename = uploadFile.getOriginalFilename();
+        String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1, originalFilename.length());
+        String newName = UUID.randomUUID().toString() + "." + ext;
+
+        //存储到指定的文件夹/upload，考虑文件过多情况，按照日期，生产子文件夹
+        String realPath = httpSession.getServletContext().getRealPath("/upload");
+        String datePath = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        File file = new File(realPath + "/" + datePath);
+        if (!file.exists()) {
+//            file.mkdirs();  创建单层级文件夹
+            file.mkdirs();
+        }
+
+        //c存储文件到具体目录
+        uploadFile.transferTo(new File(file, newName));
+
+        Date date = new Date();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("date",date);
+        modelAndView.setViewName("success");
+        return modelAndView;
+    }
+
+
+    /*******************************************************************************************
+     * 注意：写在这里只会当对前controller类生效
+     * SpringMVC异常处理机制
+     * @param exception
+     * @param response
+     */
+//    @ExceptionHandler
+//    public void HandlerException(ArithmeticException exception, HttpServletResponse response) {
+//        //异常处理逻辑
+//        try {
+//            response.getWriter().write(exception.getMessage());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

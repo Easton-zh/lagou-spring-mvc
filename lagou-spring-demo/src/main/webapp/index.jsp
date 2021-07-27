@@ -108,9 +108,9 @@
         <h2>multipart 文件上传</h2>
         <fieldset>
             <%--
-                1 method="post"
-                2 enctype="multipart/form-data"
-                3 type="file"
+                1 method="post"  post方式
+                2 enctype="multipart/form-data"  媒体类型
+                3 type="file"  选择文件组件
             --%>
             <form method="post" enctype="multipart/form-data" action="/demo/upload">
                 <input type="file" name="uploadFile"/>
